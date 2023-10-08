@@ -26,8 +26,8 @@ target_compile_features(uber-pet PRIVATE cxx_std_20)
 target_include_directories(uber-pet PRIVATE src)
 
 # SQLite
-target_sources(uber-pet PRIVATE ${CMAKE_BINARY_DIR}/_deps/sqlite-src/sqlite3.h)
-target_include_directories(uber-pet PRIVATE ${CMAKE_BINARY_DIR}/_deps/sqlite-src)
+target_sources(uber-pet PRIVATE ./build/_deps/sqlite-src/sqlite3.h)
+target_include_directories(uber-pet PRIVATE ./build/_deps/sqlite-src)
 
 target_link_libraries(uber-pet
   PRIVATE sqlite3
