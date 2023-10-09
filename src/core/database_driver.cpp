@@ -3,75 +3,60 @@
 #include <stdio.h>
 #include <iostream>
 #include <tuple>
+#include <vector>
+
+sqlite3* db;
+const char* filename = "database.db";
 
 namespace DatabaseDriver {
-sqlite3* db;
+using namespace std;
 
-void init(sqlite3* _db) {
-  db = _db;
-}
+int execute(string sql) {
+  sqlite3_open("database.db", &db);
 
-int open(const char* filename) {
-  int rc = sqlite3_open(filename, &db);
+  int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, NULL);
 
-  if (rc == SQLITE_ERROR) {
-    fprintf(stderr, "Erro ao abrir o banco de dados: %s\n", sqlite3_errmsg(db));
-  }
+  sqlite3_close(db);
 
   return rc;
 }
 
-int close() {
-  int rc = sqlite3_close(db);
+vector<vector<string>> step(string sql) {
+  sqlite3_open("database.db", &db);
 
-  if (rc == SQLITE_ERROR) {
-    fprintf(stderr, "Erro ao fechar o banco de dados: %s\n",
-            sqlite3_errmsg(db));
-  }
-
-  return rc;
-}
-
-int execute(const char* sql) {
-  int rc = sqlite3_exec(db, sql, NULL, NULL, NULL);
-
-  if (rc == SQLITE_ERROR) {
-    fprintf(stderr, "Erro ao executar o comando SQL: %s\n", sqlite3_errmsg(db));
-  }
-
-  return rc;
-}
-
-std::tuple<int, sqlite3_stmt*> prepare(const char* sql) {
   sqlite3_stmt* stmt;
-  int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+  sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr);
 
-  if (rc == SQLITE_ERROR) {
-    fprintf(stderr, "Erro ao preparar a consulta: %s\n", sqlite3_errmsg(db));
+  std::vector<std::vector<std::string>> results;
+  while (sqlite3_step(stmt) == SQLITE_ROW) {
+    std::vector<std::string> row;
+    for (int i = 0; i < sqlite3_column_count(stmt); i++) {
+      row.push_back(std::string(
+          reinterpret_cast<const char*>(sqlite3_column_text(stmt, i))));
+    }
+    results.push_back(row);
   }
 
-  return std::make_tuple(rc, stmt);
-}
-
-int step(sqlite3_stmt* stmt) {
-  int rc = sqlite3_step(stmt);
   sqlite3_finalize(stmt);
+  sqlite3_close(db);
 
-  if (rc == SQLITE_ERROR) {
-    fprintf(stderr, "Erro ao executar o comando SQL: %s\n", sqlite3_errmsg(db));
-  }
-
-  return rc;
+  return results;
 }
 
 bool exists(const char* tableName) {
-  std::string sql =
-      "SELECT name FROM sqlite_master WHERE type='table' AND name='" +
-      std::string(tableName) + "';";
+  sqlite3_open("database.db", &db);
 
-  auto [_, stmt] = DatabaseDriver::prepare(sql.c_str());
-  int rc = DatabaseDriver::step(stmt);
+  string sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='" +
+               string(tableName) + "';";
+
+  sqlite3_stmt* stmt;
+  sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr);
+
+  int rc = sqlite3_step(stmt);
+
+  sqlite3_finalize(stmt);
+  sqlite3_close(db);
 
   return rc == SQLITE_ROW;
 }
-}
+}  // namespace DatabaseDriver

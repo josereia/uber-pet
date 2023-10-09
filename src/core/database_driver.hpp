@@ -3,16 +3,14 @@
 
 #include <sqlite3.h>
 #include <tuple>
+#include <vector>
 
-namespace DatabaseDriver
-{
-  void init(sqlite3 *_db);
-  int open(const char *filename);
-  int close();
-  int execute(const char *sql);
-  std::tuple<int, sqlite3_stmt *> prepare(const char *sql);
-  int step(sqlite3_stmt *stmt);
-  bool exists(const char *tableName);
-} // namespace DatabaseDriver
+using namespace std;
 
-#endif // database_driver
+namespace DatabaseDriver {
+int execute(string sql);
+vector<vector<string>> step(string sql);
+bool exists(const char* tableName);
+}  // namespace DatabaseDriver
+
+#endif  // database_driver
