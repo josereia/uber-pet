@@ -2,20 +2,20 @@
 #include <core/database_driver.hpp>
 #include <string>
 #include <tuple>
-#include "customer_module.hpp"
+#include "pet_module.hpp"
 
-namespace CustomerRepository {
+namespace PetRepository {
 using namespace std;
 
 vector<vector<string>> find_all() {
-  string sql = "SELECT * FROM customers";
+  string sql = "SELECT * FROM pets";
   auto [results, _] = DatabaseDriver::step(sql, {});
 
   return results;
 }
 
 vector<vector<string>> find_by_id(string id) {
-  string sql = "SELECT * FROM customers WHERE id = ?";
+  string sql = "SELECT * FROM pets WHERE id = ?";
   auto [results, _] = DatabaseDriver::step(sql, {id});
 
   return results;
@@ -23,14 +23,16 @@ vector<vector<string>> find_by_id(string id) {
 
 void create(vector<string> data) {
   string sql =
-      "INSERT INTO customers ("
+      "INSERT INTO pets ("
       "name,"
-      "email,"
-      "address,"
-      "phone1,"
-      "phone2"
+      "breed,"
+      "sex,"
+      "size,"
+      "weight,"
+      "observation"
       ")"
       "VALUES ("
+      "?,"
       "?,"
       "?,"
       "?,"
@@ -42,15 +44,15 @@ void create(vector<string> data) {
 
 void update(string id, vector<string> data) {
   string sql =
-      "UPDATE customers SET name = ?, email = ?, address = ?, phone1 = ?, "
-      "phone2 = ? WHERE id = " +
+      "UPDATE pets SET name = ?, breed = ?, sex = ?, size = ?, "
+      "weight = ?, observation = ? WHERE id = " +
       id;
 
   DatabaseDriver::step(sql, data);
 }
 
 void remove(string id) {
-  string sql = "DELETE FROM customers WHERE id = ?";
+  string sql = "DELETE FROM pets WHERE id = ?";
   DatabaseDriver::step(sql, {id});
 };
-}  // namespace CustomerRepository
+}  // namespace PetRepository

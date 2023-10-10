@@ -46,15 +46,6 @@ void create(vector<string> data) {
   DatabaseDriver::step(sql, data);
 }
 
-class MyException : public std::exception {
- public:
-  MyException(const char* message) : message_(message) {}
-  const char* what() const noexcept { return message_; }
-
- private:
-  const char* message_;
-};
-
 void update(string id, vector<string> data) {
   string sql =
       "UPDATE drivers SET name = ?, cnh = ?, marital_status = ?, criminal = ?, "

@@ -1,6 +1,7 @@
 #include "root_module.hpp"
 #include <modules/customer/customer_module.hpp>
 #include <modules/driver/driver_module.hpp>
+#include <modules/pet/pet_module.hpp>
 #include "ftxui/component/component.hpp"
 #include "ftxui/component/screen_interactive.hpp"
 
@@ -11,22 +12,17 @@ void main() {
   std::vector<std::string> tab_values{
       "Transportes",
       "Clientes",
+      "Pets",
       "Motoristas",
   };
   int tab_selected = 0;
   auto tab_toggle = Toggle(&tab_values, &tab_selected);
 
-  std::vector<std::string> tab_1_entries{
-      "Forest",
-      "Water",
-      "I don't know",
-  };
-  int tab_1_selected = 0;
-
   auto tab_container = Container::Tab(
       {
-          Radiobox(&tab_1_entries, &tab_1_selected),
+          Container::Vertical({}),
           CustomerModule::main(),
+          PetModule::main(),
           DriverModule::main(),
       },
       &tab_selected);

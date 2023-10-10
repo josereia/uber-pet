@@ -1,12 +1,5 @@
 {
-  "cSpell.words": [
-    "Dalvik",
-    "ftxui",
-    "hbox",
-    "Maffei",
-    "Radiobox",
-    "usename"
-  ],
+  "cSpell.words": ["ftxui", "hbox", "Kg", "Maffei", "Radiobox", "usename"],
   "files.associations": {
     "vector": "cpp",
     "__locale": "cpp",
