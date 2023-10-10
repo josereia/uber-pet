@@ -2,6 +2,7 @@
 #include <modules/customer/customer_module.hpp>
 #include <modules/driver/driver_module.hpp>
 #include <modules/pet/pet_module.hpp>
+#include <modules/service/service_module.hpp>
 #include "ftxui/component/component.hpp"
 #include "ftxui/component/screen_interactive.hpp"
 
@@ -10,10 +11,7 @@ void main() {
   using namespace ftxui;
 
   std::vector<std::string> tab_values{
-      "Transportes",
-      "Clientes",
-      "Pets",
-      "Motoristas",
+      "Vendas", "Clientes", "Pets", "Serviços", "Motoristas",
   };
   int tab_selected = 0;
   auto tab_toggle = Toggle(&tab_values, &tab_selected);
@@ -23,6 +21,7 @@ void main() {
           Container::Vertical({}),
           CustomerModule::main(),
           PetModule::main(),
+          ServiceModule::main(),
           DriverModule::main(),
       },
       &tab_selected);

@@ -158,6 +158,29 @@ void init() {
         "'Muito bagunceira');",
         &err);
   }
+
+  if (!DatabaseDriver::exists("services")) {
+    DatabaseDriver::execute(
+        "CREATE TABLE services ("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+        "name TEXT NOT NULL,"
+        "description TEXT NOT NULL,"
+        "price TEXT NOT NULL"
+        ");",
+        &err);
+
+    DatabaseDriver::execute(
+        "INSERT INTO services ("
+        "name,"
+        "description,"
+        "price"
+        ")"
+        "VALUES ("
+        "'Vacinação(Gripe canina)',"
+        "'A partir de 8 semanas; 1 ano após a última dose',"
+        "'70');",
+        &err);
+  }
 }
 
 int main(void) {
