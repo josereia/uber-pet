@@ -8,7 +8,7 @@ bool login(const char* username, const char* password) {
                     std::string(username) + "' AND password ='" +
                     std::string(password) + "'";
 
-  auto results = DatabaseDriver::step(sql);
+  auto [results, _] = DatabaseDriver::step(sql, {});
 
   return results.size() > 0;
 };

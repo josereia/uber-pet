@@ -8,8 +8,9 @@
 using namespace std;
 
 namespace DatabaseDriver {
-int execute(string sql);
-vector<vector<string>> step(string sql);
+sqlite3* get_db();
+int execute(string sql, char** err);
+tuple<vector<vector<string>>, int> step(string sql, vector<string> bindings);
 bool exists(const char* tableName);
 }  // namespace DatabaseDriver
 

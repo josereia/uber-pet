@@ -1,4 +1,5 @@
 #include "root_module.hpp"
+#include <modules/customer/customer_module.hpp>
 #include <modules/driver/driver_module.hpp>
 #include "ftxui/component/component.hpp"
 #include "ftxui/component/screen_interactive.hpp"
@@ -22,24 +23,10 @@ void main() {
   };
   int tab_1_selected = 0;
 
-  std::vector<std::string> tab_2_entries{
-      "Hello",
-      "Hi",
-      "Hay",
-  };
-  int tab_2_selected = 0;
-
-  std::vector<std::string> tab_3_entries{
-      "Table",
-      "Nothing",
-      "Is",
-      "Empty",
-  };
-  int tab_3_selected = 0;
   auto tab_container = Container::Tab(
       {
           Radiobox(&tab_1_entries, &tab_1_selected),
-          Radiobox(&tab_2_entries, &tab_2_selected),
+          CustomerModule::main(),
           DriverModule::main(),
       },
       &tab_selected);

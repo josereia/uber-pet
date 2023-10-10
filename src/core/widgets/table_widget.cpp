@@ -7,7 +7,8 @@ namespace Widgets {
 using namespace std;
 using namespace ftxui;
 
-Element table(vector<vector<string>> data) {
+Element table(vector<vector<string>> data, vector<string> header) {
+  data.insert(data.begin(), {header});
   auto table = Table(data);
 
   table.SelectAll().Border(LIGHT);

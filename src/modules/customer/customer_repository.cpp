@@ -2,20 +2,20 @@
 #include <core/database_driver.hpp>
 #include <string>
 #include <tuple>
-#include "driver_module.hpp"
+#include "customer_module.hpp"
 
-namespace DriverRepository {
+namespace CustomerRepository {
 using namespace std;
 
 vector<vector<string>> find_all() {
-  string sql = "SELECT * FROM drivers";
+  string sql = "SELECT * FROM customers";
   auto [results, _] = DatabaseDriver::step(sql, {});
 
   return results;
 }
 
 vector<vector<string>> find_by_id(string id) {
-  string sql = "SELECT * FROM drivers WHERE id = ?";
+  string sql = "SELECT * FROM customers WHERE id = ?";
   auto [results, _] = DatabaseDriver::step(sql, {id});
 
   return results;
@@ -23,20 +23,14 @@ vector<vector<string>> find_by_id(string id) {
 
 void create(vector<string> data) {
   string sql =
-      "INSERT INTO drivers ("
+      "INSERT INTO customers ("
       "name,"
-      "cnh,"
-      "marital_status,"
-      "criminal,"
+      "email,"
       "address,"
-      "license_plate,"
       "phone1,"
       "phone2"
       ")"
       "VALUES ("
-      "?,"
-      "?,"
-      "?,"
       "?,"
       "?,"
       "?,"
@@ -57,15 +51,15 @@ class MyException : public std::exception {
 
 void update(string id, vector<string> data) {
   string sql =
-      "UPDATE drivers SET name = ?, cnh = ?, marital_status = ?, criminal = ?, "
-      "address = ?, license_plate = ?, phone1 = ?, phone2 = ? WHERE id = " +
+      "UPDATE customers SET name = ?, email = ?, address = ?, phone1 = ?, "
+      "phone2 = ? WHERE id = " +
       id;
 
   DatabaseDriver::step(sql, data);
 }
 
 void remove(string id) {
-  string sql = "DELETE FROM drivers WHERE id = ?";
+  string sql = "DELETE FROM customers WHERE id = ?";
   DatabaseDriver::step(sql, {id});
 };
-}  // namespace DriverRepository
+}  // namespace CustomerRepository
