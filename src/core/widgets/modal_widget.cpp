@@ -11,7 +11,7 @@ Component modal(string title, Component body, Component footer) {
   auto renderer = Renderer(body, [title, body, footer] {
     return vbox({
                hbox({
-                   text(title) | center,
+                   text(title) | bold | center,
                }),
                separator(),
                body->Render(),

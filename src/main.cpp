@@ -178,7 +178,36 @@ void init() {
         "VALUES ("
         "'Vacinação(Gripe canina)',"
         "'A partir de 8 semanas; 1 ano após a última dose',"
-        "'70');",
+        "'70,00');",
+        &err);
+  }
+
+  if (!DatabaseDriver::exists("sales")) {
+    DatabaseDriver::execute(
+        "CREATE TABLE sales ("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+        "service TEXT NOT NULL,"
+        "pet TEXT NOT NULL,"
+        "customer TEXT NOT NULL,"
+        "driver TEXT NOT NULL,"
+        "total TEXT NOT NULL"
+        ");",
+        &err);
+
+    DatabaseDriver::execute(
+        "INSERT INTO sales ("
+        "service,"
+        "pet,"
+        "customer,"
+        "driver,"
+        "total"
+        ")"
+        "VALUES ("
+        "'Vacinação(Gripe canina)',"
+        "'Lua',"
+        "'João Sereia',"
+        "'Guilherme Maffei',"
+        "'70,00');",
         &err);
   }
 }
