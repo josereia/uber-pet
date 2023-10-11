@@ -190,6 +190,7 @@ void init() {
         "pet TEXT NOT NULL,"
         "customer TEXT NOT NULL,"
         "driver TEXT NOT NULL,"
+        "payment_method TEXT NOT NULL,"
         "total TEXT NOT NULL"
         ");",
         &err);
@@ -200,6 +201,7 @@ void init() {
         "pet,"
         "customer,"
         "driver,"
+        "payment_method,"
         "total"
         ")"
         "VALUES ("
@@ -207,7 +209,55 @@ void init() {
         "'Lua',"
         "'João Sereia',"
         "'Guilherme Maffei',"
+        "'PIX',"
         "'70,00');",
+        &err);
+  }
+
+  if (!DatabaseDriver::exists("payments")) {
+    DatabaseDriver::execute(
+        "CREATE TABLE payments ("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+        "name TEXT NOT NULL,"
+        "tax_type TEXT NOT NULL,"
+        "tax TEXT NOT NULL"
+        ");",
+        &err);
+
+    DatabaseDriver::execute(
+        "INSERT INTO payments ("
+        "name,"
+        "tax_type,"
+        "tax"
+        ")"
+        "VALUES ("
+        "'Cartão de crédito',"
+        "'Porcentagem',"
+        "'3');",
+        &err);
+
+    DatabaseDriver::execute(
+        "INSERT INTO payments ("
+        "name,"
+        "tax_type,"
+        "tax"
+        ")"
+        "VALUES ("
+        "'PIX',"
+        "'Bruto',"
+        "'0');",
+        &err);
+
+    DatabaseDriver::execute(
+        "INSERT INTO payments ("
+        "name,"
+        "tax_type,"
+        "tax"
+        ")"
+        "VALUES ("
+        "'A vista',"
+        "'Bruto',"
+        "'0');",
         &err);
   }
 }

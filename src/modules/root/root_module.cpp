@@ -1,6 +1,7 @@
 #include "root_module.hpp"
 #include <modules/customer/customer_module.hpp>
 #include <modules/driver/driver_module.hpp>
+#include <modules/payment/payment_module.hpp>
 #include <modules/pet/pet_module.hpp>
 #include <modules/sale/sale_module.hpp>
 #include <modules/service/service_module.hpp>
@@ -14,7 +15,8 @@ void main() {
   int tab_selected = 0;
 
   std::vector<std::string> tab_values{
-      "Vendas", "Clientes", "Pets", "Serviços", "Motoristas",
+      "Vendas",     "Clientes", "Pets", "Serviços", "Métodos de pagamento",
+      "Motoristas",
   };
 
   auto tab_toggle = Toggle(&tab_values, &tab_selected);
@@ -25,6 +27,7 @@ void main() {
           CustomerModule::main(),
           PetModule::main(),
           ServiceModule::main(),
+          PaymentModule::main(),
           DriverModule::main(),
       },
       &tab_selected);
