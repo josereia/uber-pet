@@ -1,10 +1,10 @@
 #include <algorithm>
+#include <core/utils/utils.hpp>
 #include <core/widgets/widgets.hpp>
 #include <modules/customer/customer_module.hpp>
 #include <modules/driver/driver_module.hpp>
 #include <modules/pet/pet_module.hpp>
 #include <modules/service/service_module.hpp>
-
 #include <string>
 #include <vector>
 #include "../sale_module.hpp"
@@ -134,34 +134,13 @@ Component create_modal(void (*on_cancel)(), void (*on_create)()) {
     total = services[selected_service_dropdown][3];
 
     if (!money_discount.empty()) {
-      string total_temp = total;
-      string money_discount_temp = money_discount;
-
-      replace(total_temp.begin(), total_temp.end(), ',', '.');
-      replace(money_discount_temp.begin(), money_discount_temp.end(), ',', '.');
-
-      double total_val = stod(total);
-      double discount_val = stod(money_discount);
-      double total_with_discount = total_val - discount_val;
-
-      total = to_string(total_with_discount);
-      replace(total.begin(), total.end(), '.', ',');
+      string result = Utils::calc_val_discount(total, money_discount);
+      total = result;
     }
 
     if (!percent_discount.empty()) {
-      string total_temp = total;
-      string money_discount_temp = percent_discount;
-
-      replace(total_temp.begin(), total_temp.end(), ',', '.');
-      replace(money_discount_temp.begin(), money_discount_temp.end(), ',', '.');
-
-      double total_val = stod(total);
-      double discount_val = stod(percent_discount);
-      double total_with_discount =
-          total_val - (total_val * (discount_val / 100));
-
-      total = to_string(total_with_discount);
-      replace(total.begin(), total.end(), '.', ',');
+      string result = Utils::calc_percent_discount(total, percent_discount);
+      total = result;
     }
 
     return vbox({
